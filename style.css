@@ -1,3 +1,4 @@
+/* === BASE === */
 :root{
   --bg:#000;
   --card:#111;
@@ -11,11 +12,12 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  min-height:100vh;
   background:var(--bg);
   color:var(--accent);
+  overflow-x:hidden;
 }
 
+/* === LAYOUT === */
 .screen{min-height:100vh;display:flex;flex-direction:column}
 .center{justify-content:center;align-items:center}
 .hidden{display:none}
@@ -25,21 +27,15 @@ body{
   padding:24px;
   border-radius:var(--radius);
   border:1px solid rgba(255,255,255,.15);
-  box-shadow:0 0 25px rgba(255,255,255,.08);
 }
 
-/* LOGO */
-.logo{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
+/* === LOGO === */
+.logo{display:flex;align-items:center;gap:14px}
 .logo.large{margin-bottom:20px}
 .logo.small .logo-mark{width:36px;height:36px;font-size:16px}
 
 .logo-mark{
-  width:72px;
-  height:72px;
+  width:72px;height:72px;
   border-radius:16px;
   background:linear-gradient(135deg,#fff,#aaa);
   color:#000;
@@ -48,31 +44,22 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 0 20px rgba(255,255,255,.4);
 }
 
-.logo-text{
-  font-size:26px;
-  font-weight:700;
-}
+.logo-text{font-size:26px;font-weight:700}
 .logo-text span{color:#bbb}
-.logo-text small{
-  display:block;
-  font-size:12px;
-  color:var(--muted);
-  margin-top:2px;
-}
+.logo-text small{display:block;font-size:12px;color:var(--muted)}
 
-/* HEADER */
+/* === HEADER === */
 .app-header{
-  padding:16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  padding:16px;
   border-bottom:1px solid rgba(255,255,255,.15);
 }
 
-/* FORM */
+/* === FORM === */
 .form-compact input,
 .form-compact select{
   width:100%;
@@ -86,20 +73,17 @@ body{
 
 .row{display:flex;gap:10px}
 
+/* === BUTTONS === */
 .btn{
   padding:10px 14px;
   border-radius:10px;
-  font-weight:600;
   cursor:pointer;
+  font-weight:600;
 }
 .btn.primary{background:#fff;color:#000}
-.btn.ghost{
-  background:#000;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.4);
-}
+.btn.ghost{background:#000;color:#fff;border:1px solid rgba(255,255,255,.4)}
 
-/* LAYOUT */
+/* === CONTENT === */
 .container{
   display:flex;
   gap:20px;
@@ -109,17 +93,14 @@ body{
 .form-card{width:320px}
 .table-card{flex:1}
 
-.books-table{
-  width:100%;
-  border-collapse:collapse;
-}
-.books-table th,
-.books-table td{
+/* === TABLE === */
+.books-table{width:100%;border-collapse:collapse}
+.books-table th,.books-table td{
   padding:12px;
   border-bottom:1px solid rgba(255,255,255,.15);
-  text-align:left;
 }
 
+/* === TABLE ACTIONS === */
 .table-action{
   padding:6px 10px;
   border-radius:8px;
@@ -128,9 +109,43 @@ body{
 .table-action.edit{background:#222;color:#fff}
 .table-action.delete{background:#300;color:#ff6b6b}
 
+/* === FOOTER === */
 .app-footer{
   text-align:center;
   padding:14px;
   color:var(--muted);
   border-top:1px solid rgba(255,255,255,.15);
+}
+
+/* === MOBILE === */
+@media (max-width:768px){
+
+  .container{flex-direction:column;padding:12px}
+  .form-card,.table-card{width:100%}
+
+  .logo.large .logo-mark{width:56px;height:56px;font-size:20px}
+  .logo.large .logo-text{font-size:20px}
+
+  .row{flex-direction:column}
+
+  .books-table thead{display:none}
+  .books-table, .books-table tbody, .books-table tr, .books-table td{
+    display:block;width:100%;
+  }
+  .books-table tr{
+    background:#111;
+    margin-bottom:14px;
+    padding:10px;
+    border-radius:12px;
+  }
+  .books-table td{
+    border:none;
+    font-size:14px;
+  }
+  .books-table td::before{
+    content:attr(data-label);
+    font-size:12px;
+    color:#aaa;
+    display:block;
+  }
 }
