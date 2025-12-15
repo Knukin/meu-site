@@ -1,203 +1,136 @@
 :root{
-  --bg: #000;
-  --card: #0f0f0f;
-  --muted: #bfc6c9;
-  --accent: #ffffff;
-  --glass: rgba(255,255,255,0.03);
-  --radius: 12px;
-  --gap: 14px;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --bg:#000;
+  --card:#111;
+  --accent:#fff;
+  --muted:#aaa;
+  --radius:14px;
+  font-family: Inter, system-ui, sans-serif;
   color-scheme: dark;
 }
 
 *{box-sizing:border-box}
-html,body{height:100%;margin:0}
 body{
-  background: var(--bg);
-  color: var(--accent);
-  -webkit-font-smoothing:antialiased;
-}
-
-/* Layout */
-.screen{min-height:100vh; display:flex; flex-direction:column}
-.center{align-items:center; justify-content:center}
-.hidden{display:none}
-
-/* Card base */
-.card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: var(--radius);
-  padding: 18px;
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.03);
-}
-
-/* Login card */
-.login-card{ 
-  width: 360px; 
-  max-width: 90%;
-  text-align:left;
-}
-.logo{ display:flex; gap:12px; align-items:center; margin-bottom:8px }
-.logo-mark{ width:52px; height:52px; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; border-radius:10px; font-weight:700 }
-.logo-text{ font-weight:600; font-size:18px }
-.logo-text span{ color:var(--muted); margin-left:6px; font-weight:500 }
-
-/* Header */
-.app-header{ 
-  display:flex; 
-  justify-content:space-between; 
-  align-items:center; 
-  padding:16px 18px; 
-  border-bottom:1px solid rgba(255,255,255,0.02); 
-  flex-wrap:wrap;
-}
-
-/* Container */
-.container{
-  display:flex;
-  gap:18px;
-  padding:18px;
-  align-items:flex-start;
-  flex-wrap:wrap;
-}
-.form-card{ 
-  width:320px; 
-  max-width:100%;
-  flex-shrink:0;
-}
-.table-card{ 
-  flex:1; 
-  min-width:260px;
-}
-
-/* Inputs */
-.form-compact input, 
-.form-compact select{
-  width:100%;
-  padding:10px 12px;
-  margin:8px 0;
-  background:transparent;
-  border:1px solid rgba(255,255,255,0.04);
-  border-radius:8px;
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
   color:var(--accent);
 }
 
-/* Buttons */
-.btn{
-  padding:10px 12px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-}
-.btn.primary{ background:var(--accent); color:#000; }
-.btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04) }
+.screen{min-height:100vh;display:flex;flex-direction:column}
+.center{justify-content:center;align-items:center}
+.hidden{display:none}
 
-/* Table */
-.table-wrap{ 
-  margin-top:8px; 
-  border-radius:8px; 
-  width:100%;
+.card{
+  background:var(--card);
+  padding:24px;
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 25px rgba(255,255,255,.08);
 }
 
-.books-table{ 
-  width:100%; 
-  border-collapse:collapse; 
-  table-layout: auto;
+/* LOGO */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.logo.large{margin-bottom:20px}
+.logo.small .logo-mark{width:36px;height:36px;font-size:16px}
+
+.logo-mark{
+  width:72px;
+  height:72px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff,#aaa);
+  color:#000;
+  font-weight:800;
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 20px rgba(255,255,255,.4);
 }
 
-.books-table th, .books-table td{
-  padding:10px 12px;
-  text-align:left;
-  font-size:14px;
+.logo-text{
+  font-size:26px;
+  font-weight:700;
+}
+.logo-text span{color:#bbb}
+.logo-text small{
+  display:block;
+  font-size:12px;
   color:var(--muted);
-  border-bottom:1px dashed rgba(255,255,255,0.03);
-  word-break: normal;
-  white-space: nowrap;
+  margin-top:2px;
 }
 
-.books-table thead th{ 
-  color:var(--accent); 
+/* HEADER */
+.app-header{
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+/* FORM */
+.form-compact input,
+.form-compact select{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  background:#000;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:10px;
+  color:#fff;
+}
+
+.row{display:flex;gap:10px}
+
+.btn{
+  padding:10px 14px;
+  border-radius:10px;
   font-weight:600;
-}
-
-/* Buttons inside table */
-.table-action{
-  padding:6px 8px;
-  border-radius:8px;
-  font-size:13px;
-  margin-right:6px;
   cursor:pointer;
-  border:none;
 }
-.table-action.edit{ background:transparent; color:var(--accent); border:1px solid rgba(255,255,255,0.04) }
-.table-action.delete{ background:transparent; color:#ff6b6b; border:1px solid rgba(255,107,107,0.06) }
-
-/* Footer */
-.app-footer{ 
-  padding:14px 22px; 
-  color:var(--muted); 
-  text-align:center; 
-  border-top:1px solid rgba(255,255,255,0.02); 
-  margin-top:18px; 
+.btn.primary{background:#fff;color:#000}
+.btn.ghost{
+  background:#000;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.4);
 }
 
-/* RESPONSIVIDADE */
+/* LAYOUT */
+.container{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  flex-wrap:wrap;
+}
+.form-card{width:320px}
+.table-card{flex:1}
 
-@media (max-width: 900px){
-  .container{ 
-    flex-direction:column; 
-    padding:14px;
-    gap:12px;
-  }
-  .form-card{ width:100%; }
+.books-table{
+  width:100%;
+  border-collapse:collapse;
+}
+.books-table th,
+.books-table td{
+  padding:12px;
+  border-bottom:1px solid rgba(255,255,255,.15);
+  text-align:left;
 }
 
-/* Celulares - tabela vira cartões */
-@media (max-width: 600px){
-
-  /* Remove cabeçalho */
-  .books-table thead {
-    display: none;
-  }
-
-  .books-table,
-  .books-table tbody,
-  .books-table tr,
-  .books-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .books-table tr {
-    background: rgba(255,255,255,0.02);
-    margin-bottom: 12px;
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  .books-table td {
-    white-space: normal;
-    padding: 6px 8px;
-    border: none;
-    font-size: 14px;
-  }
-
-  .books-table td::before {
-    content: attr(data-label);
-    display: block;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 2px;
-    text-transform: uppercase;
-  }
+.table-action{
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
 }
+.table-action.edit{background:#222;color:#fff}
+.table-action.delete{background:#300;color:#ff6b6b}
 
-/* Celulares muito pequenos */
-@media (max-width: 420px){
-  .btn{
-    width:100%;
-    margin-top:8px;
-  }
+.app-footer{
+  text-align:center;
+  padding:14px;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,.15);
 }
