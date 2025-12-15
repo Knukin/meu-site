@@ -1,188 +1,109 @@
-// ---------- Seletores ----------
 const loginScreen = document.getElementById('login-screen');
-const appScreen   = document.getElementById('app-screen');
+const appScreen = document.getElementById('app-screen');
 
-const loginForm   = document.getElementById('login-form');
-const loginUser   = document.getElementById('login-username');
-const loginPass   = document.getElementById('login-password');
+const loginForm = document.getElementById('login-form');
+const loginUser = document.getElementById('login-username');
+const loginPass = document.getElementById('login-password');
 
-const logoutBtn   = document.getElementById('logout-btn');
+const logoutBtn = document.getElementById('logout-btn');
 
-const bookForm    = document.getElementById('book-form');
-const inputTitle  = document.getElementById('titulo');
-const inputAuthor = document.getElementById('autor');
-const inputDate   = document.getElementById('acquisitionDate');
-const inputPlace  = document.getElementById('location');
-const inputStatus = document.getElementById('status');
+const bookForm = document.getElementById('book-form');
+const bookList = document.getElementById('book-list');
+const tableInfo = document.getElementById('table-info');
 
-const bookListTbody = document.getElementById('book-list');
-const tableInfo      = document.getElementById('table-info');
+const USER = "admin";
+const PASS = "1234";
+let editIndex = -1;
 
-const USER = 'admin';
-const PASS = '1234';
-
-let editingIndex = -1;
-
-// ---------- Storage ----------
 function loadBooks(){
-  try {
-    return JSON.parse(localStorage.getItem('livros') || '[]');
-  } catch {
-    return [];
-  }
+  return JSON.parse(localStorage.getItem("livros") || "[]");
 }
-function saveBooks(arr){
-  localStorage.setItem('livros', JSON.stringify(arr));
+function saveBooks(b){
+  localStorage.setItem("livros", JSON.stringify(b));
 }
 
-// ---------- Render ----------
-function renderTable(){
+function render(){
   const livros = loadBooks();
-  bookListTbody.innerHTML = '';
+  bookList.innerHTML = "";
 
-  if (livros.length === 0){
-    tableInfo.style.display = 'block';
+  if(livros.length === 0){
+    tableInfo.style.display="block";
     return;
-  } else {
-    tableInfo.style.display = 'none';
   }
+  tableInfo.style.display="none";
 
-  livros.forEach((l, idx) => {
-    const tr = document.createElement('tr');
-
-    const dateStr = l.acquisitionDate ? new Date(l.acquisitionDate).toLocaleDateString() : '-';
-
-    tr.innerHTML = `
-      <td data-label="Título"><strong>${escapeHtml(l.titulo)}</strong></td>
-      <td data-label="Autor">${escapeHtml(l.autor)}</td>
-      <td data-label="Data">${dateStr}</td>
-      <td data-label="Local">${escapeHtml(l.location || '')}</td>
-      <td data-label="Status">${escapeHtml(l.status)}</td>
-      <td data-label="Ações">
-        <button class="table-action edit" data-idx="${idx}">Editar</button>
-        <button class="table-action delete" data-idx="${idx}">Excluir</button>
-      </td>
+  livros.forEach((l,i)=>{
+    bookList.innerHTML += `
+      <tr>
+        <td>${l.titulo}</td>
+        <td>${l.autor}</td>
+        <td>${l.data || "-"}</td>
+        <td>${l.local || "-"}</td>
+        <td>${l.status}</td>
+        <td>
+          <button class="table-action edit" onclick="edit(${i})">Editar</button>
+          <button class="table-action delete" onclick="del(${i})">Excluir</button>
+        </td>
+      </tr>
     `;
-
-    bookListTbody.appendChild(tr);
   });
 }
 
-function escapeHtml(s){
-  if (!s) return '';
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
-
-// ---------- Login ----------
-function showApp(){
-  loginScreen.classList.add('hidden');
-  appScreen.classList.remove('hidden');
-}
-
-function showLogin(){
-  loginScreen.classList.remove('hidden');
-  appScreen.classList.add('hidden');
-  loginForm.reset();
-}
-
-loginForm.addEventListener('submit', (e) => {
+loginForm.onsubmit = e =>{
   e.preventDefault();
-  if (loginUser.value === USER && loginPass.value === PASS){
-    localStorage.setItem('acervo_logged', '1');
-    showApp();
-    renderTable();
-  } else {
-    alert("Usuário ou senha incorretos.");
+  if(loginUser.value === USER && loginPass.value === PASS){
+    localStorage.setItem("logged","1");
+    loginScreen.classList.add("hidden");
+    appScreen.classList.remove("hidden");
+    render();
+  }else{
+    alert("Usuário ou senha incorretos");
   }
-});
+};
 
-window.addEventListener('load', () => {
-  if (localStorage.getItem('acervo_logged') === '1'){
-    showApp();
-    renderTable();
-  } else {
-    showLogin();
-  }
-});
+logoutBtn.onclick = ()=>{
+  localStorage.setItem("logged","0");
+  location.reload();
+};
 
-logoutBtn.addEventListener('click', () => {
-  localStorage.setItem('acervo_logged', '0');
-  showLogin();
-});
-
-// ---------- Salvar Livro ----------
-bookForm.addEventListener('submit', (e) => {
+bookForm.onsubmit = e =>{
   e.preventDefault();
-
-  const titulo = inputTitle.value.trim();
-  const autor  = inputAuthor.value.trim();
-
-  if (!titulo || !autor){
-    alert("Preencha título e autor.");
-    return;
-  }
-
-  const livro = {
-    titulo,
-    autor,
-    acquisitionDate: inputDate.value || '',
-    location: inputPlace.value.trim(),
-    status: inputStatus.value,
-    updatedAt: new Date().toISOString()
-  };
-
   const livros = loadBooks();
-
-  if (editingIndex === -1){
-    livros.unshift(livro);
-  } else {
-    livros[editingIndex] = { ...livros[editingIndex], ...livro };
-    editingIndex = -1;
-    document.getElementById('save-btn').textContent = 'Salvar';
-  }
-
+  const livro = {
+    titulo: titulo.value,
+    autor: autor.value,
+    data: acquisitionDate.value,
+    local: location.value,
+    status: status.value
+  };
+  editIndex === -1 ? livros.unshift(livro) : livros[editIndex]=livro;
+  editIndex=-1;
   saveBooks(livros);
-  renderTable();
   bookForm.reset();
-});
+  render();
+};
 
-// ---------- Editar / Excluir ----------
-bookListTbody.addEventListener('click', (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-  const idx = Number(btn.dataset.idx);
+function edit(i){
+  const l = loadBooks()[i];
+  titulo.value=l.titulo;
+  autor.value=l.autor;
+  acquisitionDate.value=l.data;
+  location.value=l.local;
+  status.value=l.status;
+  editIndex=i;
+}
 
-  if (btn.classList.contains("edit")){
-    startEdit(idx);
-  } else if (btn.classList.contains("delete")){
-    removeBook(idx);
+function del(i){
+  if(confirm("Excluir livro?")){
+    const l=loadBooks();
+    l.splice(i,1);
+    saveBooks(l);
+    render();
   }
-});
-
-function startEdit(i){
-  const livro = loadBooks()[i];
-  editingIndex = i;
-
-  inputTitle.value = livro.titulo;
-  inputAuthor.value = livro.autor;
-  inputDate.value = livro.acquisitionDate || "";
-  inputPlace.value = livro.location || "";
-  inputStatus.value = livro.status;
-
-  document.getElementById("save-btn").textContent = "Atualizar";
-  inputTitle.focus();
 }
 
-function removeBook(i){
-  if (!confirm("Excluir este livro?")) return;
-  const arr = loadBooks();
-  arr.splice(i, 1);
-  saveBooks(arr);
-  renderTable();
+if(localStorage.getItem("logged")==="1"){
+  loginScreen.classList.add("hidden");
+  appScreen.classList.remove("hidden");
+  render();
 }
-
-// Inicializa
-renderTable();
