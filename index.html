@@ -7,96 +7,90 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- LOGIN -->
-  <main id="login-screen" class="screen center">                                                                                                                   
-    <div class="card login-card" role="dialog" aria-labelledby="login-title">
-      <div class="logo">
-        <div class="logo-mark">LA</div>
-        <div class="logo-text">Libery<span>Admin</span></div>
+
+<!-- LOGIN -->
+<main id="login-screen" class="screen center">
+  <div class="card login-card" role="dialog" aria-labelledby="login-title">
+
+    <div class="logo large">
+      <div class="logo-mark">LA</div>
+      <div class="logo-text">
+        Libery<span>Admin</span>
+        <small>Sistema de Inventário</small>
       </div>
+    </div>
 
-      <h2 id="login-title">Entrar</h2>
+    <h2 id="login-title">Entrar</h2>
 
-      <form id="login-form" autocomplete="on" class="form-compact">
-        <input id="login-username" type="text" placeholder="Usuário" autocomplete="username" required>
-        <input id="login-password" type="password" placeholder="Senha" autocomplete="current-password" required>
+    <form id="login-form" class="form-compact">
+      <input id="login-username" type="text" placeholder="Usuário" required>
+      <input id="login-password" type="password" placeholder="Senha" required>
+      <button type="submit" class="btn primary">Entrar</button>
+    </form>
+
+  </div>
+</main>
+
+<!-- APP -->
+<main id="app-screen" class="screen hidden">
+
+  <header class="app-header">
+    <div class="logo small">
+      <div class="logo-mark">LA</div>
+      <div class="logo-text">Libery<span>Admin</span></div>
+    </div>
+    <button id="logout-btn" class="btn ghost">Sair</button>
+  </header>
+
+  <section class="container">
+
+    <aside class="card form-card">
+      <h3>Adicionar / Editar Livro</h3>
+      <form id="book-form" class="form-compact">
+        <input id="titulo" type="text" placeholder="Título" required>
+        <input id="autor" type="text" placeholder="Autor" required>
+
         <div class="row">
-          <br>
-          <button type="submit" class="btn primary">Entrar</button>
+          <input id="acquisitionDate" type="date">
+          <input id="location" type="text" placeholder="Localização">
+        </div>
+
+        <select id="status">
+          <option>Disponível</option>
+          <option>Emprestado</option>
+          <option>Em Reparação</option>
+        </select>
+
+        <div class="row">
+          <button id="save-btn" class="btn primary">Salvar</button>
+          <button type="reset" class="btn ghost">Limpar</button>
         </div>
       </form>
-    </div>
-  </main>
+    </aside>
 
-  <!-- APP -->
-  <main id="app-screen" class="screen hidden">
-    <header class="app-header">
-      <div class="brand">
-        <div class="logo-mark small">LA</div>
-        <div class="logo-text small">Libery<span>Admin</span></div>
-      </div>
-      <div>
-        <button id="logout-btn" class="btn ghost">Sair</button>
-      </div>
-    </header>
-
-    <section class="container">
-      <!-- Form Card -->
-      <aside class="card form-card">
-        <h3>Adicionar / Editar livro</h3>
-        <form id="book-form" class="form-compact">
-          <label class="sr-only" for="titulo">Título</label>
-          <input id="titulo" type="text" placeholder="Título" required>
-
-          <label class="sr-only" for="autor">Autor</label>
-          <input id="autor" type="text" placeholder="Autor" required>
-
-          <div class="row">
-            <input id="acquisitionDate" type="date" aria-label="Data de aquisição">
-            <input id="location" type="text" placeholder="Localização (ex: Estante A)" >
-          </div>
-
-          <select id="status" aria-label="Status do livro">
-            <option value="Disponível">Disponível</option>
-            <option value="Emprestado">Emprestado</option>
-            <option value="Em Reparação">Em Reparação</option>
-          </select>
-          <br>
-
-          <div class="row">
-            <button type="submit" class="btn primary" id="save-btn">Salvar</button>
-            <button type="button" class="btn ghost" id="reset-btn">Limpar</button>
-          </div>
-        </form>
-      </aside>
-
-      <!-- Table Card -->
-      <section class="card table-card">
-        <h3>Inventário</h3>
-        <div class="table-wrap">
-          <table class="books-table responsive-table" aria-describedby="table-info">
-            <thead>
-              <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Data</th>
-                <th>Local</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="book-list">
-              <!-- linhas geradas pelo JS -->
-            </tbody>
-          </table>
-          <div id="table-info" class="muted small">Nenhum livro cadastrado.</div>
-        </div>
-      </section>
+    <section class="card table-card">
+      <h3>Inventário</h3>
+      <table class="books-table">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Data</th>
+            <th>Local</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="book-list"></tbody>
+      </table>
+      <p id="table-info" class="muted">Nenhum livro cadastrado.</p>
     </section>
 
-    <footer class="app-footer">Libery Admin — Dados salvos localmente</footer>
-  </main>
+  </section>
 
-  <script src="script.js"></script>
+  <footer class="app-footer">LiberyAdmin — Dados salvos localmente</footer>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
